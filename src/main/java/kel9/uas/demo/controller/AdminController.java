@@ -52,9 +52,9 @@ public class AdminController {
     public String hapusMataKuliah(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             mataKuliahService.deleteMataKuliah(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Mata kuliah berhasil dihapus!");
+            redirectAttributes.addFlashAttribute("successMessage", "Mata kuliah beserta kelas dan mahasiswa yang terkait berhasil dihapus!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Tidak dapat menghapus mata kuliah yang sedang digunakan!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Gagal menghapus mata kuliah");
         }
         return "redirect:/admin/dashboard";
     }

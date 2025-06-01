@@ -463,7 +463,7 @@
                         <td>
                             <form th:action="@{/admin/hapus-mata-kuliah/{id}(id=${mk.id})}" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">Hapus</button>
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini? Semua kelas & mahasiswa yang terkait akan ikut terhapus.')">Hapus</button>
                             </form>
                         </td>
                     </tr>
@@ -558,7 +558,7 @@
                                 </div>
                                 <form th:action="@{/remove-mahasiswa/{kelasId}/{mahasiswaId}(kelasId=${kelas.id}, mahasiswaId=${mhs.id})}" method="post">
                                     <button type="submit" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Remove this student from class?')">
+                                            onclick="return confirm('Hapus mahasiswa dari kelas ini?')">
                                         Hapus
                                     </button>
                                 </form>

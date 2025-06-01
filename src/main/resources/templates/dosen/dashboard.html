@@ -424,7 +424,7 @@
                                     <td>
                                         <form th:action="@{/dosen/batal-mengajar/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-inline">
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Are you sure you want to stop teaching this class?')">
+                                                    onclick="return confirm('Apakah anda yakin ingin berhenti mengajar di kelas ini?')">
                                                 Berhenti Mengajar
                                             </button>
                                         </form>
@@ -511,7 +511,7 @@
                                 <td th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></td>
                                 <td>
                                     <span th:if="${dosen?.kelasYangDiajarkan != null and dosen.kelasYangDiajarkan.contains(kelas)}"
-                                          class="badge bg-success">Pengajaran</span>
+                                          class="badge bg-success">Ditugaskan kepada anda</span>
                                     <span th:if="${kelas.dosenPengajar == null}"
                                           class="badge bg-warning">Tersedia</span>
                                     <span th:if="${kelas.dosenPengajar != null and (dosen?.kelasYangDiajarkan == null or !dosen.kelasYangDiajarkan.contains(kelas))}"
@@ -526,7 +526,6 @@
         </div>
     </div>
 
-    <!-- Student Modals for each class -->
     <div th:each="kelas : ${dosen?.kelasYangDiajarkan}" class="modal fade" th:id="'studentsModal' + ${kelas.id}" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -546,7 +545,7 @@
                         </ul>
                     </div>
                     <div th:if="${kelas.mahasiswa == null or kelas.mahasiswa.empty}">
-                        <p class="text-muted">No students enrolled in this class.</p>
+                        <p class="text-muted">Tidak ada mahasiswa yang terdaftar di kelas ini</p>
                     </div>
                 </div>
             </div>
