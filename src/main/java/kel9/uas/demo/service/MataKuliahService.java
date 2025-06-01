@@ -14,6 +14,12 @@ public class MataKuliahService {
     @Autowired
     private MataKuliahRepository mataKuliahRepository;
 
+    @Autowired
+    private KelasRepository kelasRepository;
+
+    @Autowired
+    private MahasiswaRepository mahasiswaRepository;
+
     public List<MataKuliah> findAll() {
         return mataKuliahRepository.findAll();
     }
@@ -34,6 +40,29 @@ public class MataKuliahService {
 
     @Transactional
     public void deleteMataKuliah(Long id) {
+        MataKuliah mataKuliah = mataKuliahRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Mata kuliah tidak ditemukan"));
+
+        List<Kelas> kelasList = kelasRepository.findByMataKuliah(mataKuliah);
+
+        for (Kelas kelas : kelasList) {
+            if (kelas.getMahasiswa() != null && !kelas.getMahasiswa().isEmpty()) {
+
+                List<Mahasiswa> mahasiswaList = List.copyOf(kelas.getMahasiswa());
+
+                for (Mahasiswa mahasiswa : mahasiswaList) {
+
+                    mahasiswa.getKelasDiambil().remove(kelas);
+                    mahasiswaRepository.save(mahasiswa);
+                }
+
+                kelas.getMahasiswa().clear();
+                kelasRepository.save(kelas);
+            }
+        }
+
+        kelasRepository.deleteAll(kelasList);
+
         mataKuliahRepository.deleteById(id);
     }
 }

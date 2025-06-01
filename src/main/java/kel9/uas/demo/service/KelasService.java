@@ -49,11 +49,6 @@ public class KelasService {
     }
 
     @Transactional
-    public void deleteKelas(Long id) {
-        kelasRepository.deleteById(id);
-    }
-
-    @Transactional
     public void assignDosen(Long kelasId, Long dosenId) {
         Kelas kelas = kelasRepository.findById(kelasId)
                 .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
