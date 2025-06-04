@@ -61,6 +61,25 @@ public class KelasService {
     }
 
     @Transactional
+    public void addMahasiswaToKelas(Long kelasId, Long mahasiswaId) {
+        Kelas kelas = kelasRepository.findById(kelasId)
+                .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
+
+        Mahasiswa mahasiswa = mahasiswaRepository.findById(mahasiswaId)
+                .orElseThrow(() -> new RuntimeException("Mahasiswa tidak ditemukan"));
+
+        if (kelas.getMahasiswa().contains(mahasiswa)) {
+            throw new RuntimeException("Mahasiswa sudah terdaftar di kelas ini");
+        }
+
+        kelas.getMahasiswa().add(mahasiswa);
+        mahasiswa.getKelasDiambil().add(kelas);
+
+        kelasRepository.save(kelas);
+        mahasiswaRepository.save(mahasiswa);
+    }
+
+    @Transactional
     public void removeMahasiswaFromKelas(Long kelasId, Long mahasiswaId) {
         Mahasiswa mahasiswa = mahasiswaRepository.findById(mahasiswaId)
                 .orElseThrow(() -> new RuntimeException("Mahasiswa tidak ditemukan"));
