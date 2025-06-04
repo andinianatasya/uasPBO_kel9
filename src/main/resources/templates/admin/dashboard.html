@@ -528,6 +528,18 @@
                                 </form>
                             </div>
 
+                            <div class="d-inline-block me-2">
+                                <form th:action="@{/admin/tambah-mahasiswa-ke-kelas/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-inline">
+                                    <select name="mahasiswaId" class="form-select form-select-sm d-inline" style="width: auto;" required>
+                                        <option value="">Pilih Mahasiswa</option>
+                                        <option th:each="mhs : ${semuaMahasiswa}"
+                                                th:value="${mhs.id}"
+                                                th:text="${mhs.nama + ' (' + mhs.nim + ')'}"></option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary ms-1">Tambah Mahasiswa</button>
+                                </form>
+                            </div>
+
                             <button type="button" class="btn btn-sm btn-info"
                                     data-bs-toggle="modal"
                                     th:data-bs-target="'#studentsModal' + ${kelas.id}">

@@ -71,4 +71,17 @@ public class AdminController {
         }
         return "redirect:/admin/dashboard";
     }
+
+    @PostMapping("/tambah-mahasiswa-ke-kelas/{kelasId}")
+    public String tambahMahasiswaKeKelas(@PathVariable Long kelasId,
+                                         @RequestParam Long mahasiswaId,
+                                         RedirectAttributes redirectAttributes) {
+        try {
+            kelasService.addMahasiswaToKelas(kelasId, mahasiswaId);
+            redirectAttributes.addFlashAttribute("successMessage", "Mahasiswa berhasil ditambahkan ke kelas!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/dashboard";
+    }
 }
