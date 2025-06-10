@@ -40,16 +40,6 @@ public class KelasService {
     }
 
     @Transactional
-    public Kelas createKelas(String namaKelas, Long mataKuliahId) {
-        MataKuliah mataKuliah = mataKuliahRepository.findById(mataKuliahId)
-                .orElseThrow(() -> new RuntimeException("Mata kuliah tidak ditemukan"));
-
-        Kelas kelas = new Kelas(namaKelas, mataKuliah, null);
-        return kelasRepository.save(kelas);
-    }
-
-    // Overloaded method untuk create kelas dengan informasi lengkap
-    @Transactional
     public Kelas createKelas(String namaKelas, Long mataKuliahId, Integer semester,
                              String ruangan, String jadwal) {
         MataKuliah mataKuliah = mataKuliahRepository.findById(mataKuliahId)
@@ -69,6 +59,24 @@ public class KelasService {
 
         kelas.setDosenPengajar(dosen);
         kelasRepository.save(kelas);
+    }
+
+    @Transactional
+    public void deleteKelas(Long id) {
+        Kelas kelas = kelasRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
+
+        if (kelas.getMahasiswa() != null && !kelas.getMahasiswa().isEmpty()) {
+            List<Mahasiswa> mahasiswaList = List.copyOf(kelas.getMahasiswa());
+
+            for (Mahasiswa mahasiswa : mahasiswaList) {
+                mahasiswa.getKelasDiambil().remove(kelas);
+                mahasiswaRepository.save(mahasiswa);
+            }
+            kelas.getMahasiswa().clear();
+            kelasRepository.save(kelas);
+        }
+        kelasRepository.deleteById(id);
     }
 
     @Transactional

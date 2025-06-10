@@ -12,7 +12,6 @@ public class Kelas {
 
     private String namaKelas;
 
-    // Atribut baru yang ditambahkan
     private Integer semester;
     private String ruangan;
     private String jadwal;
@@ -28,7 +27,6 @@ public class Kelas {
     @ManyToMany(mappedBy = "kelasDiambil")
     private Set<Mahasiswa> mahasiswa;
 
-    // Constructor dengan parameter baru
     public Kelas(String namaKelas, MataKuliah mataKuliah, Dosen dosenPengajar,
                  Integer semester, String ruangan, String jadwal){
         this.namaKelas = namaKelas;
@@ -39,7 +37,6 @@ public class Kelas {
         this.jadwal = jadwal;
     }
 
-    // Constructor lama untuk backward compatibility
     public Kelas(String namaKelas, MataKuliah mataKuliah, Dosen dosenPengajar){
         this.namaKelas = namaKelas;
         this.mataKuliah = mataKuliah;
@@ -48,7 +45,6 @@ public class Kelas {
 
     public Kelas(){}
 
-    // Getter dan Setter yang sudah ada
     public Long getId() {
         return id;
     }
@@ -85,7 +81,6 @@ public class Kelas {
         this.mataKuliah = mataKuliah;
     }
 
-    // Getter dan Setter baru
     public Integer getSemester() {
         return semester;
     }
