@@ -12,6 +12,11 @@ public class Kelas {
 
     private String namaKelas;
 
+    // Atribut baru yang ditambahkan
+    private Integer semester;
+    private String ruangan;
+    private String jadwal;
+
     @ManyToOne
     @JoinColumn(name = "mata_kuliah_id")
     private MataKuliah mataKuliah;
@@ -23,6 +28,18 @@ public class Kelas {
     @ManyToMany(mappedBy = "kelasDiambil")
     private Set<Mahasiswa> mahasiswa;
 
+    // Constructor dengan parameter baru
+    public Kelas(String namaKelas, MataKuliah mataKuliah, Dosen dosenPengajar,
+                 Integer semester, String ruangan, String jadwal){
+        this.namaKelas = namaKelas;
+        this.mataKuliah = mataKuliah;
+        this.dosenPengajar = dosenPengajar;
+        this.semester = semester;
+        this.ruangan = ruangan;
+        this.jadwal = jadwal;
+    }
+
+    // Constructor lama untuk backward compatibility
     public Kelas(String namaKelas, MataKuliah mataKuliah, Dosen dosenPengajar){
         this.namaKelas = namaKelas;
         this.mataKuliah = mataKuliah;
@@ -31,6 +48,7 @@ public class Kelas {
 
     public Kelas(){}
 
+    // Getter dan Setter yang sudah ada
     public Long getId() {
         return id;
     }
@@ -65,5 +83,30 @@ public class Kelas {
 
     public void setMataKuliah(MataKuliah mataKuliah) {
         this.mataKuliah = mataKuliah;
+    }
+
+    // Getter dan Setter baru
+    public Integer getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Integer semester) {
+        this.semester = semester;
+    }
+
+    public String getRuangan() {
+        return ruangan;
+    }
+
+    public void setRuangan(String ruangan) {
+        this.ruangan = ruangan;
+    }
+
+    public String getJadwal() {
+        return jadwal;
+    }
+
+    public void setJadwal(String jadwal) {
+        this.jadwal = jadwal;
     }
 }

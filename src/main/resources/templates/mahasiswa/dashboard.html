@@ -29,6 +29,36 @@
         .bg-ivory {
             background-color: var(--ivory-breeze) !important;
         }
+
+        /* Custom styles untuk tabel responsif */
+        .table-responsive {
+            border-radius: 0.375rem;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .table th {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .table td {
+            vertical-align: middle;
+            padding: 1rem 0.75rem;
+        }
+
+        .badge-semester {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .badge-ruangan {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .badge-jadwal {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -115,43 +145,81 @@
                             <table class="table table-hover mb-0">
                                 <thead class="table-dark">
                                 <tr>
-                                    <th class="px-4 py-3">
-                                        <i class="fas fa-bookmark me-2"></i>Nama Kelas
+                                    <th class="px-3 py-3 text-center" style="width: 60px;">
+                                        <i class="fas fa-hashtag me-1"></i>No
                                     </th>
-                                    <th class="px-4 py-3">
-                                        <i class="fas fa-book me-2"></i>Subjek
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-code me-2"></i>Kode
                                     </th>
-                                    <th class="px-4 py-3">
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-book me-2"></i>Mata Kuliah
+                                    </th>
+                                    <th class="px-3 py-3 text-center">
+                                        <i class="fas fa-calendar-alt me-2"></i>Semester
+                                    </th>
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-door-open me-2"></i>Ruangan
+                                    </th>
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-clock me-2"></i>Jadwal
+                                    </th>
+                                    <th class="px-3 py-3">
                                         <i class="fas fa-user-tie me-2"></i>Dosen
                                     </th>
-                                    <th class="px-4 py-3 text-center">
+                                    <th class="px-3 py-3 text-center">
                                         <i class="fas fa-cog me-2"></i>Aksi
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="kelas : ${mahasiswa.kelasDiambil}" class="align-middle">
-                                    <td class="px-4 py-3 fw-medium" th:text="${kelas.namaKelas}"></td>
-                                    <td class="px-4 py-3">
+                                <tr th:each="kelas, iterStat : ${mahasiswa.kelasDiambil}" class="align-middle">
+                                    <td class="px-3 py-3 text-center fw-bold text-muted">
+                                        <span th:text="${iterStat.count}" class="badge bg-light text-dark">1</span>
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <span class="badge bg-primary fw-normal px-3 py-2"
+                                              th:text="${kelas.mataKuliah.kode}">CS101</span>
+                                    </td>
+                                    <td class="px-3 py-3">
                                         <div class="d-flex flex-column">
-                                            <span class="fw-medium" th:text="${kelas.mataKuliah.kode}"></span>
-                                            <small class="text-muted" th:text="${kelas.mataKuliah.nama}"></small>
+                                            <span class="fw-semibold text-dark" th:text="${kelas.mataKuliah.nama}">Nama Mata Kuliah</span>
+                                            <small class="text-muted" th:text="${kelas.namaKelas}">Nama Kelas</small>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-3">
-                                            <span th:if="${kelas.dosenPengajar != null}"
-                                                  class="badge bg-info text-dark"
-                                                  th:text="${kelas.dosenPengajar.nama}"></span>
-                                        <span th:if="${kelas.dosenPengajar == null}"
-                                              class="badge bg-secondary">Tidak ada dosen pengajar</span>
+                                    <td class="px-3 py-3 text-center">
+                                        <span class="badge badge-semester text-white px-3 py-2"
+                                              th:text="${kelas.semester != null ? 'Semester ' + kelas.semester : 'Tidak diset'}">
+                                            Semester 1
+                                        </span>
                                     </td>
-                                    <td class="px-4 py-3 text-center">
+                                    <td class="px-3 py-3">
+                                        <span th:if="${kelas.ruangan != null and !kelas.ruangan.empty}"
+                                              class="badge badge-ruangan text-white px-3 py-2"
+                                              th:text="${kelas.ruangan}">Ruang A101</span>
+                                        <span th:if="${kelas.ruangan == null or kelas.ruangan.empty}"
+                                              class="badge bg-secondary px-3 py-2">Belum ditentukan</span>
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <span th:if="${kelas.jadwal != null and !kelas.jadwal.empty}"
+                                              class="badge badge-jadwal text-dark px-3 py-2"
+                                              th:text="${kelas.jadwal}">Senin 08:00-10:00</span>
+                                        <span th:if="${kelas.jadwal == null or kelas.jadwal.empty}"
+                                              class="badge bg-secondary px-3 py-2">Belum dijadwalkan</span>
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <span th:if="${kelas.dosenPengajar != null}"
+                                              class="badge bg-info text-dark px-3 py-2"
+                                              th:text="${kelas.dosenPengajar.nama}">Dr. John Doe</span>
+                                        <span th:if="${kelas.dosenPengajar == null}"
+                                              class="badge bg-secondary px-3 py-2">Tidak ada dosen</span>
+                                    </td>
+                                    <td class="px-3 py-3 text-center">
                                         <form th:action="@{/mahasiswa/batal-kelas/{kelasId}(kelasId=${kelas.id})}"
                                               method="post" class="d-inline">
                                             <button type="submit"
                                                     class="btn btn-outline-danger btn-sm px-3"
                                                     onclick="return confirm('Apakah anda yakin ingin keluar dari kelas ini?')">
-                                                <i class="fas fa-sign-out-alt me-1"></i>Keluar Kelas
+                                                <i class="fas fa-sign-out-alt me-1"></i>Keluar
                                             </button>
                                         </form>
                                     </td>
@@ -161,10 +229,11 @@
                         </div>
                     </div>
                     <div th:if="${mahasiswa?.kelasDiambil == null or mahasiswa.kelasDiambil.empty}"
-                         class="p-4 text-center">
+                         class="p-5 text-center">
                         <div class="text-muted">
-                            <i class="fas fa-info-circle fs-1 mb-3 d-block"></i>
-                            <p class="mb-0">Anda belum terdaftar di kelas manapun</p>
+                            <i class="fas fa-info-circle fs-1 mb-3 d-block opacity-50"></i>
+                            <h5 class="mb-2">Belum Ada Kelas</h5>
+                            <p class="mb-0">Anda belum terdaftar di kelas manapun. Silakan pilih kelas yang tersedia di bawah.</p>
                         </div>
                     </div>
                 </div>
@@ -182,49 +251,76 @@
                         <table class="table table-hover mb-0">
                             <thead class="table-dark">
                             <tr>
-                                <th class="px-4 py-3">
+                                <th class="px-3 py-3">
                                     <i class="fas fa-bookmark me-2"></i>Nama Kelas
                                 </th>
-                                <th class="px-4 py-3">
-                                    <i class="fas fa-book me-2"></i>Subjek
+                                <th class="px-3 py-3">
+                                    <i class="fas fa-book me-2"></i>Mata Kuliah
                                 </th>
-                                <th class="px-4 py-3">
+                                <th class="px-3 py-3 text-center">
+                                    <i class="fas fa-calendar-alt me-2"></i>Semester
+                                </th>
+                                <th class="px-3 py-3">
+                                    <i class="fas fa-door-open me-2"></i>Ruangan
+                                </th>
+                                <th class="px-3 py-3">
+                                    <i class="fas fa-clock me-2"></i>Jadwal
+                                </th>
+                                <th class="px-3 py-3">
                                     <i class="fas fa-user-tie me-2"></i>Dosen
                                 </th>
-                                <th class="px-4 py-3 text-center">
+                                <th class="px-3 py-3 text-center">
                                     <i class="fas fa-users me-2"></i>Mahasiswa
                                 </th>
-                                <th class="px-4 py-3 text-center">
+                                <th class="px-3 py-3 text-center">
                                     <i class="fas fa-cog me-2"></i>Aksi
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="kelas : ${semuaKelas}" class="align-middle">
-                                <td class="px-4 py-3 fw-medium" th:text="${kelas.namaKelas}"></td>
-                                <td class="px-4 py-3">
+                                <td class="px-3 py-3 fw-medium" th:text="${kelas.namaKelas}">Kelas A</td>
+                                <td class="px-3 py-3">
                                     <div class="d-flex flex-column">
-                                        <span class="fw-medium" th:text="${kelas.mataKuliah.kode}"></span>
-                                        <small class="text-muted" th:text="${kelas.mataKuliah.nama}"></small>
+                                        <span class="badge bg-secondary mb-1 align-self-start" th:text="${kelas.mataKuliah.kode}">CS101</span>
+                                        <span class="fw-medium" th:text="${kelas.mataKuliah.nama}">Pemrograman Dasar</span>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3">
-                                        <span th:if="${kelas.dosenPengajar != null}"
-                                              class="badge bg-info text-dark"
-                                              th:text="${kelas.dosenPengajar.nama}"></span>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="badge badge-semester text-white"
+                                          th:text="${kelas.semester != null ? kelas.semester : '-'}">1</span>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <span th:if="${kelas.ruangan != null and !kelas.ruangan.empty}"
+                                          class="badge badge-ruangan text-white"
+                                          th:text="${kelas.ruangan}">A101</span>
+                                    <span th:if="${kelas.ruangan == null or kelas.ruangan.empty}"
+                                          class="text-muted small">Belum ditentukan</span>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <span th:if="${kelas.jadwal != null and !kelas.jadwal.empty}"
+                                          class="badge badge-jadwal text-dark small"
+                                          th:text="${kelas.jadwal}">Sen 08:00</span>
+                                    <span th:if="${kelas.jadwal == null or kelas.jadwal.empty}"
+                                          class="text-muted small">Belum dijadwalkan</span>
+                                </td>
+                                <td class="px-3 py-3">
+                                    <span th:if="${kelas.dosenPengajar != null}"
+                                          class="badge bg-info text-dark"
+                                          th:text="${kelas.dosenPengajar.nama}">Dr. John</span>
                                     <span th:if="${kelas.dosenPengajar == null}"
-                                          class="badge bg-secondary">Dosen tidak tersedia</span>
+                                          class="badge bg-secondary">Belum ada dosen</span>
                                 </td>
-                                <td class="px-4 py-3 text-center">
-                                        <span class="badge bg-primary rounded-pill fs-6"
-                                              th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="badge bg-primary rounded-pill fs-6"
+                                          th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}">0</span>
                                 </td>
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-3 py-3 text-center">
                                     <!-- Already Registered -->
                                     <div th:if="${mahasiswa?.kelasDiambil != null and mahasiswa.kelasDiambil.contains(kelas)}">
-                                            <span class="badge bg-success fs-6 px-3 py-2">
-                                                <i class="fas fa-check-circle me-1"></i>Terdaftar
-                                            </span>
+                                        <span class="badge bg-success fs-6 px-3 py-2">
+                                            <i class="fas fa-check-circle me-1"></i>Terdaftar
+                                        </span>
                                     </div>
                                     <!-- Not Registered -->
                                     <div th:if="${mahasiswa?.kelasDiambil == null or !mahasiswa.kelasDiambil.contains(kelas)}">
