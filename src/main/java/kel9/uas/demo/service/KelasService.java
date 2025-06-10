@@ -48,6 +48,17 @@ public class KelasService {
         return kelasRepository.save(kelas);
     }
 
+    // Overloaded method untuk create kelas dengan informasi lengkap
+    @Transactional
+    public Kelas createKelas(String namaKelas, Long mataKuliahId, Integer semester,
+                             String ruangan, String jadwal) {
+        MataKuliah mataKuliah = mataKuliahRepository.findById(mataKuliahId)
+                .orElseThrow(() -> new RuntimeException("Mata kuliah tidak ditemukan"));
+
+        Kelas kelas = new Kelas(namaKelas, mataKuliah, null, semester, ruangan, jadwal);
+        return kelasRepository.save(kelas);
+    }
+
     @Transactional
     public void assignDosen(Long kelasId, Long dosenId) {
         Kelas kelas = kelasRepository.findById(kelasId)
@@ -89,5 +100,19 @@ public class KelasService {
 
         mahasiswa.getKelasDiambil().remove(kelas);
         mahasiswaRepository.save(mahasiswa);
+    }
+
+    @Transactional
+    public void updateKelasDetails(Long kelasId, String namaKelas, Integer semester,
+                                   String ruangan, String jadwal) {
+        Kelas kelas = kelasRepository.findById(kelasId)
+                .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
+
+        kelas.setNamaKelas(namaKelas);
+        kelas.setSemester(semester);
+        kelas.setRuangan(ruangan);
+        kelas.setJadwal(jadwal);
+
+        kelasRepository.save(kelas);
     }
 }
