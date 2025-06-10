@@ -62,9 +62,12 @@ public class AdminController {
     @PostMapping("/tambah-kelas")
     public String tambahKelas(@RequestParam String namaKelas,
                               @RequestParam Long mataKuliahId,
+                              @RequestParam Integer semester,
+                              @RequestParam String ruangan,
+                              @RequestParam String jadwal,
                               RedirectAttributes redirectAttributes) {
         try {
-            kelasService.createKelas(namaKelas, mataKuliahId);
+            kelasService.createKelas(namaKelas, mataKuliahId, semester, ruangan, jadwal);
             redirectAttributes.addFlashAttribute("successMessage", "Kelas berhasil ditambahkan!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -81,6 +84,17 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("successMessage", "Mahasiswa berhasil ditambahkan ke kelas!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping("/hapus-kelas/{id}")
+    public String hapusKelas(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            kelasService.deleteKelas(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Kelas berhasil dihapus!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Tidak dapat menghapus kelas: " + e.getMessage());
         }
         return "redirect:/admin/dashboard";
     }
