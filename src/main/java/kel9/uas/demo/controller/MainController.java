@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class MainController {
@@ -22,7 +24,19 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model, HttpServletRequest request) {
+        // Handle logout success message
+        String logout = request.getParameter("logout");
+        if (logout != null) {
+            model.addAttribute("logoutSuccess", true);
+        }
+
+        // Handle login error
+        String error = request.getParameter("error");
+        if (error != null) {
+            model.addAttribute("loginError", true);
+        }
+
         return "login";
     }
 
@@ -56,9 +70,9 @@ public class MainController {
             redirectAttributes.addFlashAttribute("successMessage", "Registrasi berhasil! Silakan login.");
             return "redirect:/login";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Tidak dapat menghapus kelas!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Registrasi gagal: " + e.getMessage());
+            return "redirect:/register";
         }
-        return "redirect:/admin/dashboard";
     }
 
     @PostMapping("/assign-dosen/{kelasId}")
