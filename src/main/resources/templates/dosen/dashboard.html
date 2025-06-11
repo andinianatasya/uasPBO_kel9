@@ -7,12 +7,37 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --ocean-blue: #5D768B;
+            --warm-beige: #C8B39B;
+            --ivory-breeze: #F8EFE5;
+        }
+
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background-color: #C8B39B;
             min-height: 100vh;
         }
 
+        .bg-ocean-blue {
+            background-color: var(--ocean-blue) !important;
+        }
+
+        .text-ocean-blue {
+            color: var(--ocean-blue) !important;
+        }
+
+        .bg-gradient-ocean {
+            background: linear-gradient(135deg, var(--ocean-blue) 0%, #4a6578 50%, #3d5a6b 100%) !important;
+        }
+
+        .bg-ivory {
+            background-color: var(--ivory-breeze) !important;
+        }
+
         .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none !important;
             transition: transform 0.2s ease-in-out;
         }
 
@@ -20,8 +45,74 @@
             transform: translateY(-2px);
         }
 
-        .table tbody tr:hover {
-            background-color: rgba(0,123,255,0.1);
+        .card-body.bg-ivory {
+            background: rgba(248, 239, 229, 0.95) !important;
+        }
+
+        .table-responsive {
+            border-radius: 0.375rem;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .table th {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            background: rgba(33, 37, 41, 0.95) !important;
+        }
+
+        .table td {
+            vertical-align: middle;
+            padding: 1rem 0.75rem;
+            background: #F8EFE5 !important;
+        }
+
+        .table-hover tbody tr:hover td {
+            background: rgba(248, 239, 229, 0.8) !important;
+        }
+
+        .badge-semester {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .badge-ruangan {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .badge-jadwal {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(93, 118, 139, 0.95) !important;
+        }
+
+        .alert {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+        }
+
+        .alert-success {
+            background: rgba(209, 231, 221, 0.95) !important;
+        }
+
+        .alert-danger {
+            background: rgba(248, 215, 218, 0.95) !important;
+        }
+
+        .alert-info {
+            background: rgba(207, 244, 252, 0.95) !important;
+        }
+
+        .alert-warning {
+            background: rgba(255, 243, 224, 0.95) !important;
+        }
+
+        .alert-secondary {
+            background: rgba(233, 236, 239, 0.95) !important;
         }
 
         .btn {
@@ -31,21 +122,45 @@
         .navbar-brand {
             font-weight: 700;
         }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border: none;
+        }
+
+        .modal-header.bg-ocean-blue {
+            background: linear-gradient(135deg, var(--ocean-blue) 0%, #4a6578 100%) !important;
+        }
+
+        .list-group-item {
+            background: rgba(248, 239, 229, 0.7) !important;
+            border-color: rgba(93, 118, 139, 0.2) !important;
+        }
+
+        .list-group-item:hover {
+            background: rgba(248, 239, 229, 0.9) !important;
+        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-ocean shadow">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-graduation-cap me-2"></i>
-            Class Enrollment
+        <a class="navbar-brand fw-bold fs-4" href="#">
+            <i class="fas fa-graduation-cap me-2"></i>Class Enrollment
         </a>
         <div class="navbar-nav ms-auto">
-            <span class="navbar-text me-3 text-light" th:text="'Halo, ' + ${dosen?.nama ?: 'Lecturer'}"></span>
-            <a class="nav-link text-light" th:href="@{/logout}">
-                <i class="fas fa-sign-out-alt me-1"></i>
-                Keluar
+            <span class="navbar-text me-3 fw-medium" th:text="'Halo, ' + ${dosen?.nama ?: 'Lecturer'}">
+                <i class="fas fa-user-circle me-1"></i>
+            </span>
+            <a class="nav-link btn btn-outline-light btn-sm px-3" th:href="@{/logout}">
+                <i class="fas fa-sign-out-alt me-1"></i>Keluar
             </a>
         </div>
     </div>
@@ -53,12 +168,12 @@
 
 <div class="container mt-4">
 
-    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
         <i class="fas fa-check-circle me-2"></i>
         <span th:text="${successMessage}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
         <i class="fas fa-exclamation-circle me-2"></i>
         <span th:text="${errorMessage}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -66,75 +181,91 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4 text-primary fw-bold">
-                <i class="fas fa-home me-2"></i>
-                Beranda Dosen
+            <h1 class="text-white fw-bold mb-4 display-6" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">
+                <i class="fas fa-home me-2"></i>Beranda Dosen
             </h1>
 
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-user me-2"></i>
-                        Informasi Dosen
+            <div class="card mb-4 shadow-sm border-0 rounded-3">
+                <div class="card-header bg-gradient-ocean text-white py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="fas fa-user me-2"></i>Informasi Dosen
                     </h5>
                 </div>
-                <div class="card-body bg-light">
-                    <div th:if="${dosen}">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <p class="mb-2"><strong class="text-primary">Nama:</strong> <span th:text="${dosen.nama}" class="text-dark"></span></p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="mb-2"><strong class="text-primary">NIP:</strong> <span th:text="${dosen.nip}" class="text-dark"></span></p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="mb-2"><strong class="text-primary">Username:</strong> <span th:text="${dosen.username}" class="text-dark"></span></p>
-                            </div>
+                <div class="card-body bg-ivory p-4">
+                    <div th:if="${dosen}" class="row">
+                        <div class="col-md-4 mb-2">
+                            <strong class="text-ocean-blue">
+                                <i class="fas fa-id-card me-2"></i>Nama:
+                            </strong>
+                            <div class="ms-4" th:text="${dosen.nama}"></div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <strong class="text-ocean-blue">
+                                <i class="fas fa-hashtag me-2"></i>NIP:
+                            </strong>
+                            <div class="ms-4" th:text="${dosen.nip}"></div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <strong class="text-ocean-blue">
+                                <i class="fas fa-at me-2"></i>Username:
+                            </strong>
+                            <div class="ms-4" th:text="${dosen.username}"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-success text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-chalkboard-teacher me-2"></i>
-                        Kelas Pengajaran Saya
+            <div class="card mb-4 shadow-sm border-0 rounded-3">
+                <div class="card-header bg-gradient-ocean text-white py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="fas fa-chalkboard-teacher me-2"></i>Kelas Pengajaran Saya
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div th:if="${dosen?.kelasYangDiajarkan != null and !dosen.kelasYangDiajarkan.empty}">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                                <thead class="table-success">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-dark">
                                 <tr>
-                                    <th scope="col"><i class="fas fa-class me-1"></i>Nama Kelas</th>
-                                    <th scope="col"><i class="fas fa-book me-1"></i>Subjek</th>
-                                    <th scope="col"><i class="fas fa-users me-1"></i>Jumlah Mahasiswa</th>
-                                    <th scope="col"><i class="fas fa-cogs me-1"></i>Aksi</th>
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-bookmark me-2"></i>Nama Kelas
+                                    </th>
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-book me-2"></i>Mata Kuliah
+                                    </th>
+                                    <th class="px-3 py-3 text-center">
+                                        <i class="fas fa-users me-2"></i>Mahasiswa
+                                    </th>
+                                    <th class="px-3 py-3 text-center">
+                                        <i class="fas fa-cog me-2"></i>Aksi
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="kelas : ${dosen.kelasYangDiajarkan}">
-                                    <td th:text="${kelas.namaKelas}" class="fw-semibold"></td>
-                                    <td th:text="${kelas.mataKuliah.kode + ' - ' + kelas.mataKuliah.nama}"></td>
-                                    <td>
-                                        <span class="badge bg-info rounded-pill" th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
+                                <tr th:each="kelas : ${dosen.kelasYangDiajarkan}" class="align-middle">
+                                    <td class="px-3 py-3 fw-semibold" th:text="${kelas.namaKelas}"></td>
+                                    <td class="px-3 py-3">
+                                        <div class="d-flex flex-column">
+                                            <span class="badge bg-primary mb-1 align-self-start" th:text="${kelas.mataKuliah.kode}"></span>
+                                            <span class="fw-medium" th:text="${kelas.mataKuliah.nama}"></span>
+                                        </div>
                                     </td>
-                                    <td>
+                                    <td class="px-3 py-3 text-center">
+                                        <span class="badge bg-info rounded-pill fs-6"
+                                              th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
+                                    </td>
+                                    <td class="px-3 py-3 text-center">
                                         <div class="btn-group" role="group">
                                             <form th:action="@{/dosen/batal-mengajar/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-inline">
-                                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm px-3"
                                                         onclick="return confirm('Apakah anda yakin ingin berhenti mengajar di kelas ini?')">
-                                                    <i class="fas fa-times me-1"></i>
-                                                    Berhenti Mengajar
+                                                    <i class="fas fa-times me-1"></i>Berhenti
                                                 </button>
                                             </form>
-                                            <button type="button" class="btn btn-info btn-sm ms-1"
+                                            <button type="button" class="btn btn-info btn-sm ms-1 px-3"
                                                     data-bs-toggle="modal"
                                                     th:data-bs-target="'#studentsModal' + ${kelas.id}">
-                                                <i class="fas fa-eye me-1"></i>
-                                                Lihat Mahasiswa
+                                                <i class="fas fa-eye me-1"></i>Lihat
                                             </button>
                                         </div>
                                     </td>
@@ -143,46 +274,60 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${dosen?.kelasYangDiajarkan == null or dosen.kelasYangDiajarkan.empty}">
-                        <div class="alert alert-info mb-0" role="alert">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Anda belum mengajar kelas apa pun
+                    <div th:if="${dosen?.kelasYangDiajarkan == null or dosen.kelasYangDiajarkan.empty}"
+                         class="p-5 text-center">
+                        <div class="text-muted">
+                            <i class="fas fa-info-circle fs-1 mb-3 d-block opacity-50"></i>
+                            <h5 class="mb-2">Belum Mengajar</h5>
+                            <p class="mb-0">Anda belum mengajar kelas manapun. Silakan pilih kelas yang tersedia di bawah.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-plus-circle me-2"></i>
-                        Kelas yang tersedia (Tanpa Dosen)
+            <div class="card mb-4 shadow-sm border-0 rounded-3">
+                <div class="card-header bg-gradient-ocean text-white py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="fas fa-plus-circle me-2"></i>Kelas yang Tersedia (Tanpa Dosen)
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div th:if="${kelasTanpaDosen != null and !kelasTanpaDosen.empty}">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
-                                <thead class="table-warning">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-dark">
                                 <tr>
-                                    <th scope="col"><i class="fas fa-class me-1"></i>Nama Kelas</th>
-                                    <th scope="col"><i class="fas fa-book me-1"></i>Subjek</th>
-                                    <th scope="col"><i class="fas fa-users me-1"></i>Jumlah Mahasiswa</th>
-                                    <th scope="col"><i class="fas fa-cogs me-1"></i>Aksi</th>
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-bookmark me-2"></i>Nama Kelas
+                                    </th>
+                                    <th class="px-3 py-3">
+                                        <i class="fas fa-book me-2"></i>Mata Kuliah
+                                    </th>
+                                    <th class="px-3 py-3 text-center">
+                                        <i class="fas fa-users me-2"></i>Mahasiswa
+                                    </th>
+                                    <th class="px-3 py-3 text-center">
+                                        <i class="fas fa-cog me-2"></i>Aksi
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="kelas : ${kelasTanpaDosen}">
-                                    <td th:text="${kelas.namaKelas}" class="fw-semibold"></td>
-                                    <td th:text="${kelas.mataKuliah.kode + ' - ' + kelas.mataKuliah.nama}"></td>
-                                    <td>
-                                        <span class="badge bg-info rounded-pill" th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
+                                <tr th:each="kelas : ${kelasTanpaDosen}" class="align-middle">
+                                    <td class="px-3 py-3 fw-semibold" th:text="${kelas.namaKelas}"></td>
+                                    <td class="px-3 py-3">
+                                        <div class="d-flex flex-column">
+                                            <span class="badge bg-secondary mb-1 align-self-start" th:text="${kelas.mataKuliah.kode}"></span>
+                                            <span class="fw-medium" th:text="${kelas.mataKuliah.nama}"></span>
+                                        </div>
                                     </td>
-                                    <td>
+                                    <td class="px-3 py-3 text-center">
+                                        <span class="badge bg-info rounded-pill fs-6"
+                                              th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
+                                    </td>
+                                    <td class="px-3 py-3 text-center">
                                         <form th:action="@{/dosen/daftar-mengajar/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-inline">
-                                            <button type="submit" class="btn btn-success btn-sm">
-                                                <i class="fas fa-plus me-1"></i>
-                                                Daftar Mengajar
+                                            <button type="submit" class="btn btn-success btn-sm px-3">
+                                                <i class="fas fa-plus me-1"></i>Daftar Mengajar
                                             </button>
                                         </form>
                                     </td>
@@ -191,29 +336,34 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${kelasTanpaDosen == null or kelasTanpaDosen.empty}">
-                        <div class="alert alert-secondary mb-0" role="alert">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Tidak ada kelas yang tersedia untuk mengajar
+                    <div th:if="${kelasTanpaDosen == null or kelasTanpaDosen.empty}"
+                         class="p-5 text-center">
+                        <div class="text-muted">
+                            <i class="fas fa-info-circle fs-1 mb-3 d-block opacity-50"></i>
+                            <h5 class="mb-2">Tidak Ada Kelas Tersedia</h5>
+                            <p class="mb-0">Semua kelas sudah memiliki dosen pengajar.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-list me-2"></i>
-                        Semua Kelas
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-gradient-ocean text-white py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="fas fa-list me-2"></i>Semua Kelas
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead class="table-secondary">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-dark">
                             <tr>
-                                <th scope="col"><i class="fas fa-class me-1"></i>Nama Kelas</th>
-                                <th scope="col"><i class="fas fa-book me-1"></i>Subjek</th>
+                                <th class="px-3 py-3">
+                                    <i class="fas fa-bookmark me-2"></i>Nama Kelas
+                                </th>
+                                <th class="px-3 py-3">
+                                    <i class="fas fa-book me-2"></i>Mata Kuliah
+                                </th>
                                 <th class="px-3 py-3 text-center">
                                     <i class="fas fa-calendar-alt me-2"></i>Semester
                                 </th>
@@ -223,22 +373,33 @@
                                 <th class="px-3 py-3">
                                     <i class="fas fa-clock me-2"></i>Jadwal
                                 </th>
-                                <th scope="col"><i class="fas fa-user-tie me-1"></i>Dosen</th>
-                                <th scope="col"><i class="fas fa-users me-1"></i>Jumlah Mahasiswa</th>
-                                <th scope="col"><i class="fas fa-flag me-1"></i>Status</th>
+                                <th class="px-3 py-3">
+                                    <i class="fas fa-user-tie me-2"></i>Dosen
+                                </th>
+                                <th class="px-3 py-3 text-center">
+                                    <i class="fas fa-users me-2"></i>Mahasiswa
+                                </th>
+                                <th class="px-3 py-3 text-center">
+                                    <i class="fas fa-flag me-2"></i>Status
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="kelas : ${semuaKelas}">
-                                <td th:text="${kelas.namaKelas}" class="fw-semibold"></td>
-                                <td th:text="${kelas.mataKuliah.kode + ' - ' + kelas.mataKuliah.nama}"></td>
+                            <tr th:each="kelas : ${semuaKelas}" class="align-middle">
+                                <td class="px-3 py-3 fw-medium" th:text="${kelas.namaKelas}"></td>
+                                <td class="px-3 py-3">
+                                    <div class="d-flex flex-column">
+                                        <span class="badge bg-secondary mb-1 align-self-start" th:text="${kelas.mataKuliah.kode}"></span>
+                                        <span class="fw-medium" th:text="${kelas.mataKuliah.nama}"></span>
+                                    </div>
+                                </td>
                                 <td class="px-3 py-3 text-center">
-                                    <span class="badge badge-semester text-dark"
+                                    <span class="badge badge-semester text-white"
                                           th:text="${kelas.semester != null ? kelas.semester : '-'}"></span>
                                 </td>
                                 <td class="px-3 py-3">
                                     <span th:if="${kelas.ruangan != null and !kelas.ruangan.empty}"
-                                          class="badge badge-ruangan text-dark"
+                                          class="badge badge-ruangan text-white"
                                           th:text="${kelas.ruangan}"></span>
                                     <span th:if="${kelas.ruangan == null or kelas.ruangan.empty}"
                                           class="text-muted small">Belum ditentukan</span>
@@ -250,28 +411,29 @@
                                     <span th:if="${kelas.jadwal == null or kelas.jadwal.empty}"
                                           class="text-muted small">Belum dijadwalkan</span>
                                 </td>
-                                <td>
-                                    <span th:if="${kelas.dosenPengajar != null}" th:text="${kelas.dosenPengajar.nama}" class="text-success fw-semibold"></span>
-                                    <span th:if="${kelas.dosenPengajar == null}" class="text-muted fst-italic">Tidak ada dosen pengajar</span>
+                                <td class="px-3 py-3">
+                                    <span th:if="${kelas.dosenPengajar != null}"
+                                          class="badge bg-info text-dark"
+                                          th:text="${kelas.dosenPengajar.nama}"></span>
+                                    <span th:if="${kelas.dosenPengajar == null}"
+                                          class="badge bg-secondary">Belum ada dosen</span>
                                 </td>
-                                <td>
-                                    <span class="badge bg-info rounded-pill" th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="badge bg-primary rounded-pill fs-6"
+                                          th:text="${kelas.mahasiswa != null ? kelas.mahasiswa.size() : 0}"></span>
                                 </td>
-                                <td>
+                                <td class="px-3 py-3 text-center">
                                     <span th:if="${dosen?.kelasYangDiajarkan != null and dosen.kelasYangDiajarkan.contains(kelas)}"
-                                          class="badge bg-success rounded-pill">
-                                        <i class="fas fa-check me-1"></i>
-                                        Ditugaskan kepada anda
+                                          class="badge bg-success rounded-pill fs-6 px-3 py-2">
+                                        <i class="fas fa-check me-1"></i>Ditugaskan
                                     </span>
                                     <span th:if="${kelas.dosenPengajar == null}"
-                                          class="badge bg-warning text-dark rounded-pill">
-                                        <i class="fas fa-clock me-1"></i>
-                                        Tersedia
+                                          class="badge bg-warning text-dark rounded-pill fs-6 px-3 py-2">
+                                        <i class="fas fa-clock me-1"></i>Tersedia
                                     </span>
                                     <span th:if="${kelas.dosenPengajar != null and (dosen?.kelasYangDiajarkan == null or !dosen.kelasYangDiajarkan.contains(kelas))}"
-                                          class="badge bg-secondary rounded-pill">
-                                        <i class="fas fa-user-check me-1"></i>
-                                        Ditugaskan kepada orang lain
+                                          class="badge bg-secondary rounded-pill fs-6 px-3 py-2">
+                                        <i class="fas fa-user-check me-1"></i>Ditugaskan lain
                                     </span>
                                 </td>
                             </tr>
@@ -283,13 +445,14 @@
         </div>
     </div>
 
+    <!-- Modal untuk melihat mahasiswa -->
     <div th:each="kelas : ${dosen?.kelasYangDiajarkan}" class="modal fade" th:id="'studentsModal' + ${kelas.id}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">
+                <div class="modal-header bg-gradient-ocean text-white">
+                    <h5 class="modal-title fw-semibold">
                         <i class="fas fa-users me-2"></i>
-                        <span th:text="'Students in ' + ${kelas.namaKelas}"></span>
+                        <span th:text="'Mahasiswa dalam ' + ${kelas.namaKelas}"></span>
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -298,7 +461,7 @@
                         <div class="list-group list-group-flush">
                             <div th:each="mhs : ${kelas.mahasiswa}" class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
-                                    <div class="fw-bold text-primary" th:text="${mhs.nama}"></div>
+                                    <div class="fw-bold text-ocean-blue" th:text="${mhs.nama}"></div>
                                     <small class="text-muted">
                                         <i class="fas fa-id-badge me-1"></i>
                                         NIM: <span th:text="${mhs.nim}"></span>
@@ -317,16 +480,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-ivory">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>
-                        Tutup
+                        <i class="fas fa-times me-1"></i>Tutup
                     </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<footer class="mt-5 py-4 bg-gradient-ocean text-white text-center">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 Class Enrollment System. All rights reserved.</p>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
