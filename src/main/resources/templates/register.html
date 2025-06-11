@@ -7,806 +7,321 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --ocean-blue: #5D768B;
-            --warm-beige: #C8B39B;
-            --ivory-breeze: #F8EFE5;
-            --success-green: #28a745;
-            --error-red: #dc3545;
-            --warning-orange: #fd7e14;
-        }
-
-        * {
+        body {
+            background-image: url('/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body, html {
-            height: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .register-container {
-            min-height: 100vh;
-            display: flex;
-            position: relative;
-            background-color: var(--warm-beige);
-        }
-
-        .register-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
-        }
-
         .hero-section {
-            flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: white;
-            z-index: 2;
-        }
-
-        .hero-content {
             text-align: center;
+            padding: 100px 0;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 4px 4px 7px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
             max-width: 600px;
-            padding: 2rem;
+            margin: 0 auto;
         }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            color: white;
-        }
-
-        .hero-content .description {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            color: white;
-            line-height: 1.6;
-        }
-
-        .register-panel {
-            width: 450px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
+        .register-card {
+            background: #F8EFE5;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
-            z-index: 2;
-            margin: 2rem;
-            border-radius: 12px;
             overflow: hidden;
-            max-height: calc(100vh - 4rem);
+        }
+
+        .card-header {
+            background: #5D768B;
+            border: none;
+            text-align: center;
+            padding: 30px 30px 20px;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-subtitle {
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        .card-body {
+            padding: 0 30px 30px;
+            max-height: 70vh;
             overflow-y: auto;
         }
 
-        .register-header {
-            background: linear-gradient(135deg, var(--ocean-blue) 0%, #4a6578 100%);
-            color: white;
-            padding: 2rem 1.5rem;
-            text-align: center;
-        }
-
-        .register-header i {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.9;
-        }
-
-        .register-header h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .register-header p {
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        .register-form {
-            padding: 2rem 1.5rem;
-            flex: 1;
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
         .form-label {
-            color: var(--ocean-blue);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
+            color: #5D768B;
+            font-weight: 500;
+            margin-bottom: 8px;
         }
 
-        .form-label i {
-            margin-right: 0.5rem;
+        .form-control, .form-select {
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            color: #5D768B;
+            font-size: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            background: rgba(255,255,255,0.15);
+            color: #5D768B;
+        }
+
+        .form-control::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        .form-select option {
+            background: #5D768B;
+            color: white;
+        }
+
+        .btn-register {
+            background: #5D768B;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        .login-link a {
+            color: #5D768B;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            color: #28a745;
+            text-decoration: underline;
         }
 
         .input-group {
             position: relative;
         }
 
-        .input-group-text {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-right: none;
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        .form-control, .form-select {
-            border: 1px solid #dee2e6;
-            padding: 0.65rem 0.75rem;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--ocean-blue);
-            box-shadow: 0 0 0 0.2rem rgba(93, 118, 139, 0.25);
-        }
-
-        .input-group .form-control {
-            border-left: none;
-        }
-
-        .form-control.error {
-            border-color: var(--error-red);
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 20%, 40%, 60%, 80% {
-                transform: translateX(-2px);
-            }
-            10%, 30%, 50%, 70%, 90% {
-                transform: translateX(2px);
-            }
-        }
-
-        .btn-register {
-            background: linear-gradient(135deg, var(--ocean-blue) 0%, #4a6578 100%);
-            border: none;
-            color: white;
-            padding: 0.75rem;
-            font-size: 1rem;
-            font-weight: 600;
-            width: 100%;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-register:hover:not(:disabled) {
-            background: linear-gradient(135deg, #4a6578 0%, var(--ocean-blue) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(93, 118, 139, 0.3);
-        }
-
-        .btn-register:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .divider {
-            text-align: center;
-            margin: 1.2rem 0;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
+        .input-icon {
             position: absolute;
+            left: 15px;
             top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #dee2e6;
+            transform: translateY(-50%);
+            color: #5D768B;
+            z-index: 10;
         }
 
-        .divider span {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 0 1rem;
-            color: #6c757d;
-            font-size: 0.85rem;
+        .form-control.with-icon, .form-select.with-icon {
+            padding-left: 45px;
         }
 
-        .login-link {
-            text-align: center;
-            margin-bottom: 1.2rem;
-        }
-
-        .login-link a {
-            color: var(--ocean-blue);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .login-link a:hover {
-            color: var(--warm-beige);
-        }
-
-        .footer-links {
-            text-align: center;
-            padding-top: 1rem;
-            border-top: 1px solid #dee2e6;
-        }
-
-        .footer-links a {
-            color: #6c757d;
-            text-decoration: none;
-            font-size: 0.8rem;
-            margin: 0 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a.help-link:hover {
-            color: #007bff;
-        }
-
-        .footer-links a.forgot-password-link:hover {
-            color: #dc3545;
-        }
-
-        .copyright {
-            position: absolute;
-            bottom: 2rem;
-            left: 2rem;
-            right: 2rem;
-            text-align: center;
-            color: rgba(255,255,255,0.9);
-            font-size: 0.9rem;
-            z-index: 2;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .background-image {
-            background-image: url('img/background.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        input[type="password"]::-webkit-reveal-button,
-        input[type="password"]::-webkit-credentials-auto-fill-button {
-            display: none !important;
-        }
-
-        input[type="password"]::-ms-reveal {
-            display: none !important;
-        }
-
-        @media (max-width: 768px) {
-            .register-container {
-                flex-direction: column;
-            }
-
-            .hero-section {
-                min-height: 40vh;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .register-panel {
-                width: 90%;
-                margin: 1rem auto;
-                max-height: none;
-            }
+        .role-icon {
+            margin-right: 8px;
         }
 
         .alert {
             border: none;
-            border-radius: 8px;
-            margin-bottom: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .field-transition {
+            transition: all 0.3s ease;
+        }
+
+        .form-text {
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
             font-size: 0.9rem;
-            position: relative;
-            padding: 1rem 1.25rem;
-        }
-
-        .alert-success {
-            background: linear-gradient(135deg, #d1e7dd 0%, #c3e6cb 100%);
-            color: #0f5132;
-            border-left: 4px solid var(--success-green);
-        }
-
-        .alert-danger {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-            color: #842029;
-            border-left: 4px solid var(--error-red);
-        }
-
-        .alert-warning {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            color: #856404;
-            border-left: 4px solid var(--warning-orange);
-        }
-
-        .alert .alert-icon {
-            font-size: 1.1rem;
-            margin-right: 0.5rem;
-        }
-
-        .form-check {
-            font-size: 0.9rem;
-        }
-
-        .form-check-label {
-            color: #6c757d !important;
-        }
-
-        .loading-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .alert-enhanced {
-            animation: slideInDown 0.3s ease-out;
-        }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .form-group[style*="display: none"] {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        .form-group[style*="display: block"] {
-            opacity: 1;
-            transform: translateY(0);
-            animation: slideInFade 0.5s ease-out forwards;
-        }
-
-        @keyframes slideInFade {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
     </style>
 </head>
-<body class="background-image">
-<div class="register-container">
-    <div class="hero-section">
-        <div class="hero-content">
-            <h1>Class Enrollment</h1>
-            <p class="description">Bergabunglah dengan sistem manajemen kelas perkuliahan terbaik</p>
-        </div>
-    </div>
-
-    <div class="register-panel">
-        <div class="register-header">
-            <i class="fas fa-user-plus"></i>
-            <h2>Class Enrollment</h2>
-            <p>Buat Akun Baru</p>
+<body>
+<div class="container-fluid">
+    <div class="row min-vh-100">
+        <div class="col-lg-7 d-flex align-items-center justify-content-center">
+            <div class="hero-section">
+                <h1 class="hero-title">Class Enrollment</h1>
+                <p class="hero-subtitle">Bergabunglah dengan sistem manajemen kelas perkuliahan terbaik</p>
+            </div>
         </div>
 
-        <div class="register-form">
+        <div class="col-lg-5 d-flex align-items-center justify-content-center py-4">
+            <div class="w-100" style="max-width: 450px;">
+                <div class="card register-card">
+                    <div class="card-header">
+                        <div class="mb-3">
+                            <i class="fas fa-user-plus fa-3x"></i>
+                        </div>
+                        <h2 class="card-title">Class Enrollment</h2>
+                        <p class="card-subtitle">Buat Akun Baru</p>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-            <div class="alert alert-success alert-dismissible fade show d-none alert-enhanced" role="alert" id="successAlert">
-                <i class="fas fa-check-circle alert-icon"></i>
-                <strong>Berhasil!</strong> Akun berhasil dibuat.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                        <form th:action="@{/register}" method="post" id="registerForm">
+                            <div class="mb-3">
+                                <label for="userType" class="form-label">
+                                    <i class="fas fa-users me-2"></i>Peran Akun
+                                </label>
+                                <div class="input-group">
+                                    <select class="form-select with-icon" id="userType" name="userType" required onchange="toggleFields()">
+                                        <option value="">Pilih Peran</option>
+                                        <option value="MAHASISWA"><i class="fas fa-user-graduate role-icon"></i>Mahasiswa</option>
+                                        <option value="DOSEN"><i class="fas fa-chalkboard-teacher role-icon"></i>Dosen</option>
+                                        <option value="ADMIN"><i class="fas fa-user-shield role-icon"></i>Admin</option>
+                                    </select>
+                                    <i class="fas fa-users input-icon"></i>
+                                </div>
+                            </div>
 
-            <div class="alert alert-danger alert-dismissible fade show d-none alert-enhanced" role="alert" id="errorAlert">
-                <i class="fas fa-exclamation-triangle alert-icon"></i>
-                <strong>Gagal!</strong> Terjadi kesalahan saat membuat akun.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Username
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-at input-icon"></i>
+                                    <input type="text" class="form-control with-icon" id="username" name="username"
+                                           placeholder="Masukkan username" required>
+                                </div>
+                                <div class="form-text">Username minimal 8 karakter, hanya huruf (A-Z, a-z)</div>
+                            </div>
 
-            <form action="/register" method="post" class="needs-validation" novalidate id="registerForm">
-                <div class="form-group">
-                    <label for="userType" class="form-label">
-                        <i class="fas fa-user-tag"></i>Peran Akun
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-users"></i>
-                        </span>
-                        <select class="form-select" id="userType" name="userType" required onchange="toggleFields()">
-                            <option value="">Pilih Peran</option>
-                            <option value="MAHASISWA">Mahasiswa</option>
-                            <option value="DOSEN">Dosen</option>
-                            <option value="ADMIN">Admin</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Peran akun harus dipilih.
+                            <div class="mb-3">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Password
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-key input-icon"></i>
+                                    <input type="password" class="form-control with-icon" id="password" name="password"
+                                           placeholder="Masukkan password" required>
+                                    <button class="btn btn-outline-dark" type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; border: none; background: none;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text">Password minimal 8 karakter, kombinasi huruf dan angka</div>
+                            </div>
+
+                            <div class="mb-3 field-transition" id="nimField" style="display: none;">
+                                <label for="nim" class="form-label">
+                                    <i class="fas fa-id-card me-2"></i>NIM
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-hashtag input-icon"></i>
+                                    <input type="text" class="form-control with-icon" id="nim" name="nim"
+                                           placeholder="Masukkan NIM">
+                                </div>
+                                <div class="form-text">NIM harus minimal 8 digit angka</div>
+                            </div>
+
+                            <div class="mb-3 field-transition" id="nipField" style="display: none;">
+                                <label for="nip" class="form-label">
+                                    <i class="fas fa-id-badge me-2"></i>NIP
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-hashtag input-icon"></i>
+                                    <input type="text" class="form-control with-icon" id="nip" name="nip"
+                                           placeholder="Masukkan NIP">
+                                </div>
+                                <div class="form-text">NIP harus minimal 8 digit angka</div>
+                            </div>
+
+                            <div class="mb-3 field-transition" id="namaField" style="display: none;">
+                                <label for="nama" class="form-label">
+                                    <i class="fas fa-user-tag me-2"></i>Nama Lengkap
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-signature input-icon"></i>
+                                    <input type="text" class="form-control with-icon" id="nama" name="nama"
+                                           placeholder="Masukkan nama lengkap">
+                                </div>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-success btn-register">
+                                    <i class="fas fa-user-plus me-2"></i>Register
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="login-link">
+                            <p>Sudah punya akun? <a th:href="@{/login}"><i class="fas fa-sign-in-alt me-1"></i>MASUK DI SINI</a></p>
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="username" class="form-label">
-                        <i class="fas fa-user"></i>Username
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-at"></i>
-                        </span>
-                        <input type="text"
-                               class="form-control"
-                               id="username"
-                               name="username"
-                               placeholder="Masukkan username"
-                               required
-                               autocomplete="username">
-                        <div class="invalid-feedback">
-                            Username harus diisi.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password" class="form-label">
-                        <i class="fas fa-lock"></i>Password
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-key"></i>
-                        </span>
-                        <input type="password"
-                               class="form-control"
-                               id="password"
-                               name="password"
-                               placeholder="Masukkan password"
-                               required
-                               autocomplete="new-password"
-                               style="border-right: none;">
-                        <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-left: none;">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <div class="invalid-feedback">
-                            Password harus diisi.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" id="nimField" style="display: none;">
-                    <label for="nim" class="form-label">
-                        <i class="fas fa-id-card"></i>NIM
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-hashtag"></i>
-                        </span>
-                        <input type="text"
-                               class="form-control"
-                               id="nim"
-                               name="nim"
-                               placeholder="Masukkan NIM">
-                        <div class="invalid-feedback">
-                            NIM harus diisi.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" id="nipField" style="display: none;">
-                    <label for="nip" class="form-label">
-                        <i class="fas fa-id-badge"></i>NIP
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-hashtag"></i>
-                        </span>
-                        <input type="text"
-                               class="form-control"
-                               id="nip"
-                               name="nip"
-                               placeholder="Masukkan NIP">
-                        <div class="invalid-feedback">
-                            NIP harus diisi.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" id="namaField" style="display: none;">
-                    <label for="nama" class="form-label">
-                        <i class="fas fa-signature"></i>Nama Lengkap
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <input type="text"
-                               class="form-control"
-                               id="nama"
-                               name="nama"
-                               placeholder="Masukkan nama lengkap">
-                        <div class="invalid-feedback">
-                            Nama lengkap harus diisi.
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-register" id="registerButton">
-                    <div class="loading-spinner" id="loadingSpinner"></div>
-                    <i class="fas fa-user-plus me-2" id="registerIcon"></i>
-                    <span id="registerButtonText">Daftar</span>
-                </button>
-            </form>
-
-            <div class="divider">
-                <span>ATAU</span>
-            </div>
-
-            <div class="login-link">
-                <p style="color: #6c757d; margin: 0; font-size: 0.9rem;">
-                    Sudah punya akun?
-                    <a href="/login">
-                        <i class="fas fa-sign-in-alt me-1"></i>
-                        MASUK DI SINI
-                    </a>
-                </p>
-            </div>
-
-            <div class="footer-links">
-                <a href="#" class="help-link"><i class="fas fa-question-circle me-1"></i>Bantuan</a>
-                <a href="#" class="forgot-password-link"><i class="fas fa-key me-1"></i>Lupa Password?</a>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="copyright">
-        © 2024 Class Enrollment System. All rights reserved.
-    </div>
+<!-- Copyright -->
+<div class="copyright">
+    © 2024 Class Enrollment System. All rights reserved.
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    class RegisterHandler {
-        constructor() {
-            this.registerForm = document.getElementById('registerForm');
-            this.registerButton = document.getElementById('registerButton');
-            this.registerButtonText = document.getElementById('registerButtonText');
-            this.registerIcon = document.getElementById('registerIcon');
-            this.loadingSpinner = document.getElementById('loadingSpinner');
-            this.togglePasswordBtn = document.getElementById('togglePassword');
-            this.passwordField = document.getElementById('password');
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordField = document.getElementById('password');
+        const icon = this.querySelector('i');
 
-            this.init();
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
-
-        init() {
-            this.setupFormSubmission();
-            this.setupPasswordToggle();
-            this.setupInputEvents();
-            this.setupAlertAutoClose();
-            this.setupFormValidation();
-        }
-
-        setupPasswordToggle() {
-            this.togglePasswordBtn.addEventListener('click', () => {
-                const toggleIcon = this.togglePasswordBtn.querySelector('i');
-
-                if (this.passwordField.type === 'password') {
-                    this.passwordField.type = 'text';
-                    toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
-                    this.togglePasswordBtn.setAttribute('title', 'Sembunyikan password');
-                } else {
-                    this.passwordField.type = 'password';
-                    toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
-                    this.togglePasswordBtn.setAttribute('title', 'Tampilkan password');
-                }
-            });
-        }
-
-        setupInputEvents() {
-            // Clear error styling when user starts typing
-            document.querySelectorAll('.form-control, .form-select').forEach(element => {
-                element.addEventListener('input', () => {
-                    element.classList.remove('error');
-                    if (element.checkValidity()) {
-                        element.classList.remove('is-invalid');
-                        element.classList.add('is-valid');
-                    } else {
-                        element.classList.remove('is-valid');
-                        element.classList.add('is-invalid');
-                    }
-                });
-
-                element.addEventListener('focus', () => {
-                    element.classList.remove('is-valid', 'is-invalid', 'error');
-                });
-            });
-        }
-
-        setupFormSubmission() {
-            this.registerForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-
-                if (this.validateForm()) {
-                    this.submitForm();
-                }
-            });
-        }
-
-        validateForm() {
-            const form = this.registerForm;
-            const isValid = form.checkValidity();
-
-            if (!isValid) {
-                // Add error styling to invalid fields
-                const invalidFields = form.querySelectorAll(':invalid');
-                invalidFields.forEach(field => {
-                    field.classList.add('error');
-                });
-
-                // Focus on first invalid field
-                if (invalidFields.length > 0) {
-                    invalidFields[0].focus();
-                }
-            }
-
-            form.classList.add('was-validated');
-            return isValid;
-        }
-
-        submitForm() {
-            // Show loading state
-            this.setLoadingState(true);
-            this.hideAllAlerts();
-
-            // Simulate form submission
-            this.simulateRegisterProcess();
-        }
-
-        simulateRegisterProcess() {
-            // In a real application, you would submit the form to the server
-            setTimeout(() => {
-                // For demonstration - in real app, this would be actual form submission
-                // this.registerForm.submit();
-
-                // Simulate success for demo
-                this.handleRegisterSuccess();
-            }, 1000);
-        }
-
-        handleRegisterSuccess() {
-            this.setLoadingState(false);
-            this.showAlert('successAlert');
-            this.registerForm.reset();
-            this.registerForm.classList.remove('was-validated');
-            this.hideAllFields();
-
-            // Redirect after 2 seconds
-            setTimeout(() => {
-                window.location.href = '/login';
-            }, 2000);
-        }
-
-        handleRegisterError(message) {
-            this.setLoadingState(false);
-            const alert = document.getElementById('errorAlert');
-            if (alert) {
-                const messageElement = alert.querySelector('strong').nextSibling;
-                if (messageElement) {
-                    messageElement.textContent = ' ' + message;
-                }
-                this.showAlert('errorAlert');
-            }
-        }
-
-        showAlert(alertId) {
-            const alert = document.getElementById(alertId);
-            if (alert) {
-                alert.classList.remove('d-none');
-                alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        hideAllAlerts() {
-            const alerts = ['successAlert', 'errorAlert'];
-            alerts.forEach(alertId => {
-                const alert = document.getElementById(alertId);
-                if (alert) {
-                    alert.classList.add('d-none');
-                }
-            });
-        }
-
-        setLoadingState(isLoading) {
-            this.registerButton.disabled = isLoading;
-
-            if (isLoading) {
-                this.loadingSpinner.style.display = 'inline-block';
-                this.registerIcon.style.display = 'none';
-                this.registerButtonText.textContent = 'Memproses...';
-            } else {
-                this.loadingSpinner.style.display = 'none';
-                this.registerIcon.style.display = 'inline';
-                this.registerButtonText.textContent = 'Daftar';
-            }
-        }
-
-        hideAllFields() {
-            const fields = ['nimField', 'nipField', 'namaField'];
-            fields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (field) {
-                    field.style.display = 'none';
-                }
-            });
-        }
-
-        setupAlertAutoClose() {
-            // Auto-close alerts after 8 seconds
-            document.querySelectorAll('.alert').forEach(alert => {
-                setTimeout(() => {
-                    if (bootstrap.Alert && !alert.classList.contains('d-none')) {
-                        const bsAlert = new bootstrap.Alert(alert);
-                        if (bsAlert) {
-                            bsAlert.close();
-                        }
-                    }
-                }, 8000);
-            });
-        }
-
-        setupFormValidation() {
-            // Bootstrap validation
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                    const forms = document.getElementsByClassName('needs-validation');
-                    Array.prototype.filter.call(forms, function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-        }
-    }
+    });
 
     function toggleFields() {
         const userType = document.getElementById('userType').value;
@@ -817,39 +332,77 @@
         const nipInput = document.getElementById('nip');
         const namaInput = document.getElementById('nama');
 
-        // Hide all fields and remove required attributes
         nimField.style.display = 'none';
         nipField.style.display = 'none';
         namaField.style.display = 'none';
+
         nimInput.removeAttribute('required');
         nipInput.removeAttribute('required');
         namaInput.removeAttribute('required');
 
-        // Clear previous validation states
-        [nimInput, nipInput, namaInput].forEach(input => {
-            input.classList.remove('is-valid', 'is-invalid', 'error');
-        });
-
-        // Show relevant fields based on user type
         if (userType === 'MAHASISWA') {
-            nimField.style.display = 'block';
-            namaField.style.display = 'block';
+            setTimeout(() => {
+                nimField.style.display = 'block';
+                namaField.style.display = 'block';
+            }, 100);
             nimInput.setAttribute('required', 'required');
             namaInput.setAttribute('required', 'required');
         } else if (userType === 'DOSEN') {
-            nipField.style.display = 'block';
-            namaField.style.display = 'block';
+            setTimeout(() => {
+                nipField.style.display = 'block';
+                namaField.style.display = 'block';
+            }, 100);
             nipInput.setAttribute('required', 'required');
-            namaInput.setAttribute('required', 'required');
-        } else if (userType === 'ADMIN') {
-            namaField.style.display = 'block';
             namaInput.setAttribute('required', 'required');
         }
     }
 
-    // Initialize the register handler when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        new RegisterHandler();
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const userType = document.getElementById('userType').value;
+        const nim = document.getElementById('nim').value.trim();
+        const nip = document.getElementById('nip').value.trim();
+
+        const usernameRegex = /^[A-Za-z]{8,}$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const numericRegex = /^\d{8,}$/;
+
+        if (!usernameRegex.test(username)) {
+            alert('Username harus minimal 8 huruf tanpa angka atau simbol.');
+            event.preventDefault();
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            alert('Password harus minimal 8 karakter dan merupakan kombinasi huruf dan angka.');
+            event.preventDefault();
+            return;
+        }
+
+        if (userType === 'MAHASISWA' && !numericRegex.test(nim)) {
+            alert('NIM harus minimal 8 digit angka.');
+            event.preventDefault();
+            return;
+        }
+
+        if (userType === 'DOSEN' && !numericRegex.test(nip)) {
+            alert('NIP harus minimal 8 digit angka.');
+            event.preventDefault();
+            return;
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const card = document.querySelector('.register-card');
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100);
     });
 </script>
 </body>
