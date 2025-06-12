@@ -125,7 +125,6 @@
 
         .container {
             position: relative;
-            z-index: 1;
         }
 
         .modal-content {
@@ -256,16 +255,10 @@
                                     </td>
                                     <td class="px-3 py-3 text-center">
                                         <div class="btn-group" role="group">
-                                            <form th:action="@{/dosen/batal-mengajar/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-inline">
-                                                <button type="submit" class="btn btn-outline-danger btn-sm px-3"
-                                                        onclick="return confirm('Apakah anda yakin ingin berhenti mengajar di kelas ini?')">
-                                                    <i class="fas fa-times me-1"></i>Berhenti
-                                                </button>
-                                            </form>
                                             <button type="button" class="btn btn-info btn-sm ms-1 px-3"
                                                     data-bs-toggle="modal"
                                                     th:data-bs-target="'#studentsModal' + ${kelas.id}">
-                                                <i class="fas fa-eye me-1"></i>Lihat
+                                                <i class="fas fa-eye me-1"></i>Lihat Mahasiswa
                                             </button>
                                         </div>
                                     </td>
@@ -445,7 +438,6 @@
         </div>
     </div>
 
-    <!-- Modal untuk melihat mahasiswa -->
     <div th:each="kelas : ${dosen?.kelasYangDiajarkan}" class="modal fade" th:id="'studentsModal' + ${kelas.id}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -480,11 +472,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-ivory">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>Tutup
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -492,7 +479,7 @@
 
 <footer class="mt-5 py-4 bg-gradient-ocean text-white text-center">
     <div class="container">
-        <p class="mb-0">&copy; 2024 Class Enrollment System. All rights reserved.</p>
+        <p class="mb-0">&copy; 2025 Class Enrollment System. All rights reserved.</p>
     </div>
 </footer>
 

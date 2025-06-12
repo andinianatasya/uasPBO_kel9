@@ -98,4 +98,50 @@ public class AdminController {
         }
         return "redirect:/admin/dashboard";
     }
+
+    @GetMapping("/edit-kelas/{id}")
+    public String editKelasForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Optional<Kelas> kelasOpt = kelasService.findById(id);
+            if (kelasOpt.isPresent()) {
+                model.addAttribute("kelas", kelasOpt.get());
+                model.addAttribute("semuaMataKuliah", mataKuliahService.findAll());
+                model.addAttribute("semuaDosen", dosenService.findAll());
+                return "admin/edit-kelas";
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Kelas tidak ditemukan!");
+                return "redirect:/admin/dashboard";
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Gagal memuat data kelas: " + e.getMessage());
+            return "redirect:/admin/dashboard";
+        }
+    }
+
+    @PostMapping("/update-kelas/{id}")
+    public String updateKelas(@PathVariable Long id,
+                              @RequestParam Integer semester,
+                              @RequestParam String ruangan,
+                              @RequestParam String jadwal,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            kelasService.updateKelas(id, semester, ruangan, jadwal);
+            redirectAttributes.addFlashAttribute("successMessage", "Kelas berhasil diperbarui!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping("/hapus-dosen-dari-kelas/{kelasId}")
+    public String hapusDosenDariKelas(@PathVariable Long kelasId,
+                                      RedirectAttributes redirectAttributes) {
+        try {
+            kelasService.removeDosenFromKelas(kelasId);
+            redirectAttributes.addFlashAttribute("successMessage", "Dosen berhasil dihapus dari kelas!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/dashboard";
+    }
 }
