@@ -42,17 +42,4 @@ public class DosenController {
         }
         return "redirect:/dosen/dashboard";
     }
-
-    @PostMapping("/batal-mengajar/{kelasId}")
-    public String batalMengajar(@PathVariable Long kelasId,
-                                Authentication authentication,
-                                RedirectAttributes redirectAttributes) {
-        try {
-            dosenService.batalMengajar(authentication.getName(), kelasId);
-            redirectAttributes.addFlashAttribute("successMessage", "Berhasil membatalkan mengajar!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        }
-        return "redirect:/dosen/dashboard";
-    }
 }

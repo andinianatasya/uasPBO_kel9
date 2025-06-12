@@ -40,16 +40,4 @@ public class MahasiswaService {
             mahasiswaRepository.save(mahasiswa);
         }
     }
-
-    @Transactional
-    public void batalDaftarKelas(String username, Long kelasId) {
-        Mahasiswa mahasiswa = mahasiswaRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Mahasiswa tidak ditemukan"));
-
-        Kelas kelas = kelasRepository.findById(kelasId)
-                .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
-
-        mahasiswa.getKelasDiambil().remove(kelas);
-        mahasiswaRepository.save(mahasiswa);
-    }
 }

@@ -125,7 +125,6 @@
 
         .container {
             position: relative;
-            z-index: 1;
         }
 
         .modal-content {
@@ -231,7 +230,7 @@
                     <label class="form-label fw-semibold text-ocean-blue">
                         <i class="fas fa-code me-1"></i>Kode Mata Kuliah
                     </label>
-                    <input type="text" class="form-control" name="kode" placeholder="Contoh: CS101" required>
+                    <input type="text" class="form-control" name="kode" placeholder="Contoh: PD001" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold text-ocean-blue">
@@ -413,6 +412,13 @@
                         </td>
                         <td class="px-3 py-3 text-center">
                             <div class="btn-group-vertical gap-1" role="group">
+
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        th:data-bs-target="'#editKelasModal' + ${kelas.id}">
+                                    <i class="fas fa-edit me-1"></i>Edit Kelas
+                                </button>
+
                                 <div th:if="${kelas.dosenPengajar == null}" class="d-flex gap-1 mb-1">
                                     <form th:action="@{/assign-dosen/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-flex gap-1">
                                         <select name="dosenId" class="form-select form-select-sm" required>
@@ -423,6 +429,15 @@
                                         </select>
                                         <button type="submit" class="btn btn-sm btn-success">
                                             <i class="fas fa-user-plus"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div th:if="${kelas.dosenPengajar != null}">
+                                    <form th:action="@{/admin/hapus-dosen-dari-kelas/{kelasId}(kelasId=${kelas.id})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-warning mb-1"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghentikan dosen pengajar kelas ini?')">
+                                            <i class="fas fa-user-minus me-1"></i>Hapus Dosen
                                         </button>
                                     </form>
                                 </div>
@@ -462,7 +477,70 @@
         </div>
     </div>
 
-    <!-- Modal untuk melihat mahasiswa -->
+    <div th:each="kelas : ${semuaKelas}" class="modal fade" th:id="'editKelasModal' + ${kelas.id}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-ocean text-white">
+                    <h5 class="modal-title fw-semibold">
+                        <i class="fas fa-edit me-2"></i>
+                        <span th:text="'Edit ' + ${kelas.namaKelas}"></span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/admin/update-kelas/{id}(id=${kelas.id})}" method="post">
+                    <div class="modal-body bg-ivory">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-ocean-blue">
+                                <i class="fas fa-door-open me-1"></i>Nama Kelas
+                            </label>
+                            <input type="text" class="form-control" th:value="${kelas.namaKelas}" readonly>
+                            <small class="text-muted">Nama kelas tidak dapat diubah</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-ocean-blue">
+                                <i class="fas fa-book me-1"></i>Mata Kuliah
+                            </label>
+                            <input type="text" class="form-control" th:value="${kelas.mataKuliah.kode + ' - ' + kelas.mataKuliah.nama}" readonly>
+                            <small class="text-muted">Mata kuliah tidak dapat diubah</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-ocean-blue">
+                                <i class="fas fa-calendar-alt me-1"></i>Semester
+                            </label>
+                            <select class="form-select" name="semester" required>
+                                <option value="">Pilih Semester</option>
+                                <option th:each="i : ${#numbers.sequence(1, 8)}"
+                                        th:value="${i}"
+                                        th:text="'Semester ' + ${i}"
+                                        th:selected="${kelas.semester == i}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-ocean-blue">
+                                <i class="fas fa-building me-1"></i>Ruangan
+                            </label>
+                            <input type="text" class="form-control" name="ruangan" th:value="${kelas.ruangan}" placeholder="Masukkan ruangan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-ocean-blue">
+                                <i class="fas fa-clock me-1"></i>Jadwal
+                            </label>
+                            <input type="text" class="form-control" name="jadwal" th:value="${kelas.jadwal}" placeholder="Masukkan jadwal" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-ivory">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div th:each="kelas : ${semuaKelas}" class="modal fade" th:id="'studentsModal' + ${kelas.id}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -505,11 +583,6 @@
                         <p class="text-muted mt-3">Tidak ada mahasiswa yang mendaftar di kelas ini</p>
                     </div>
                 </div>
-                <div class="modal-footer bg-ivory">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times me-1"></i>Tutup
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -517,7 +590,7 @@
 
 <footer class="mt-5 py-4 bg-gradient-ocean text-white text-center">
     <div class="container">
-        <p class="mb-0">&copy; 2024 Class Enrollment System. All rights reserved.</p>
+        <p class="mb-0">&copy; 2025 Class Enrollment System. All rights reserved.</p>
     </div>
 </footer>
 

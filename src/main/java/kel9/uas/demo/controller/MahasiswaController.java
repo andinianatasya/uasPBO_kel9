@@ -41,17 +41,4 @@ public class MahasiswaController {
         }
         return "redirect:/mahasiswa/dashboard";
     }
-
-    @PostMapping("/batal-kelas/{kelasId}")
-    public String batalKelas(@PathVariable Long kelasId,
-                             Authentication authentication,
-                             RedirectAttributes redirectAttributes) {
-        try {
-            mahasiswaService.batalDaftarKelas(authentication.getName(), kelasId);
-            redirectAttributes.addFlashAttribute("successMessage", "Berhasil membatalkan kelas!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        }
-        return "redirect:/mahasiswa/dashboard";
-    }
 }

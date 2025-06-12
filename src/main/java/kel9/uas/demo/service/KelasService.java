@@ -111,12 +111,24 @@ public class KelasService {
     }
 
     @Transactional
-    public void updateKelasDetails(Long kelasId, String namaKelas, Integer semester,
+    public void removeDosenFromKelas(Long kelasId) {
+        Kelas kelas = kelasRepository.findById(kelasId)
+                .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
+
+        if (kelas.getDosenPengajar() == null) {
+            throw new RuntimeException("Kelas ini tidak memiliki dosen pengajar");
+        }
+
+        kelas.setDosenPengajar(null);
+        kelasRepository.save(kelas);
+    }
+
+    @Transactional
+    public void updateKelas(Long kelasId, Integer semester,
                                    String ruangan, String jadwal) {
         Kelas kelas = kelasRepository.findById(kelasId)
                 .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
 
-        kelas.setNamaKelas(namaKelas);
         kelas.setSemester(semester);
         kelas.setRuangan(ruangan);
         kelas.setJadwal(jadwal);

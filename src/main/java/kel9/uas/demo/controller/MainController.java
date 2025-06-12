@@ -25,13 +25,11 @@ public class MainController {
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
-        // Handle logout success message
         String logout = request.getParameter("logout");
         if (logout != null) {
             model.addAttribute("logoutSuccess", true);
         }
 
-        // Handle login error
         String error = request.getParameter("error");
         if (error != null) {
             model.addAttribute("loginError", true);

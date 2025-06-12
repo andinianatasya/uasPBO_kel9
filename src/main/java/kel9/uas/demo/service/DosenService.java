@@ -42,13 +42,4 @@ public class DosenService {
         kelas.setDosenPengajar(dosen);
         kelasRepository.save(kelas);
     }
-
-    @Transactional
-    public void batalMengajar(String username, Long kelasId) {
-        Kelas kelas = kelasRepository.findById(kelasId)
-                .orElseThrow(() -> new RuntimeException("Kelas tidak ditemukan"));
-
-        kelas.setDosenPengajar(null);
-        kelasRepository.save(kelas);
-    }
 }
